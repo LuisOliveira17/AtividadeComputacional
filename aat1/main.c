@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+
 void Permutacao()
 {
     int numero = 0, numeroExibir = 0;
@@ -146,6 +147,57 @@ void ArranjoComRepeticao()
     printf("Arranjo COM repeticao:%d", resultado);
 }
 
+void PermutacaoComRepeticao(){
+    int quantLetras = 0, quantRep = 0, inserirArray = 0;
+    int elementos[50] = {0};
+
+    printf("Digite a quantidade total de letras:");
+    scanf("%d", &quantLetras);
+
+    printf("Informe quantas letras se repetem \n(Ex: 'ARARA'- 2 letras se repetem(A e R):");
+    scanf("%d", &quantRep);
+
+    for (int i=0; i<=quantRep-1;i++){ //quantRep-1 pois o i começa em 0 e usarei ele para povoar o array
+      printf("Quantas vezes a letra %d se repete:",i);
+      scanf("%d",&inserirArray);
+      elementos[i]=inserirArray;
+
+    }
+
+    //Calculando o numerador (fatorial de quantLetras):
+    int numerador=1;
+
+    for (int n=1;n<=quantLetras;n++){
+      numerador*=n;
+    }
+
+    printf("\nRepeticoes informadas: ");
+    for (int i = 0; i < quantRep; i++) {
+        printf("%d ", elementos[i]);
+    }
+
+    // Calculando o denominador (fatorial de cada indice do Vetor):
+
+    int denominador = 1;
+
+    for (int x = 0; x < quantRep; x++) {
+        int valor = elementos[x];
+        int fat = 1;
+
+        for (int j = 2; j <= valor; j++) {
+            fat *= j; // calcula o fatorial de 'valor'
+        }
+
+        printf("\nFatorial de %d = %lld", valor, fat);
+        denominador *= fat; // multiplica no acumulador
+    }
+    printf("\nNumerador: %d\n", numerador);
+    printf("Denominador final (produto dos fatoriais): %d\n", denominador);
+    printf("\nPossibildiades COM repeticao: %d", (numerador/denominador));
+
+
+}
+
 int main(void)
 {
     int escolha, escolhaCase1, escolhaCase2;
@@ -202,11 +254,11 @@ int main(void)
         switch (escolhaCase2)
         {
         case 1:
-            ;
+          PermutacaoComRepeticao();
+          break;
         case 2:
             ArranjoComRepeticao();
             break;
-
 
 
         case 3:
@@ -216,4 +268,3 @@ int main(void)
         return 0;
     }
 }
-
