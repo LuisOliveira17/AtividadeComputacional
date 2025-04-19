@@ -1,70 +1,62 @@
 #include <stdio.h>
 
 void Permutacao() {
-    int numero = 0;
+    int numero = 0, numeroExibir = 0;
     int multermos = 1;
-    while (numero <= 0) {
-        printf("Digite um numero inteiro >=0 para executar o fatorial:");
-        scanf("%d", &numero);
 
-        if (numero == 0) {
-            break;
-        }
+    printf("Digite um numero inteiro >= 0 para executar o fatorial: ");
+    scanf("%d", &numero);
 
-        if (numero >= 17) {
-            printf("A maquina apenas executa com exatidao, numeros abaixo de 17. Tente Novamente\n");
-        }
+    numeroExibir = numero;
+
+    if (numero < 0) {
+        printf("Numero invalido! Digite um valor maior ou igual a 0.\n");
+        return;
     }
 
-    while (numero >= 1) {
-        multermos = multermos * numero;
-        numero--;
+    if (numero >= 17) {
+        printf("A maquina apenas executa com exatidao numeros abaixo de 17. Tente novamente.\n");
+        return;
     }
 
-    printf("Fatorial:%d", multermos);
-    printf("\n\n");
+    // Calcular o fatorial
+    for (int i = 1; i <= numero; i++) {
+        multermos *= i;
+    }
+
+    printf("Fatorial de %d: %d\n\n", numeroExibir, multermos);
 }
 
 void Arranjo() {
-    int n, k, tempN; //Elementos e posicoes
-    int numerador = 1, denominador = 0, multermoDeno = 1;
+    int n, k, numerador = 1, fatorialDenominador = 1;
 
-
-    printf("Digite o numero de elementos(n):");
+    printf("Digite o numero de elementos (n): ");
     scanf("%d", &n);
-    printf("Digite o numero de posicoes (k) n>=k:");
+    printf("Digite o numero de posicoes (k) n>=k: ");
     scanf("%d", &k);
 
     while (n < k || k == 0) {
         if (n < k) {
-            printf("Digite um valor valido para n: ");
+            printf("n deve ser maior ou igual a k. Digite n novamente: ");
             scanf("%d", &n);
         }
         if (k == 0) {
-            printf("Digite um valor valido para k (min. 1): ");
+            printf("k deve ser no mínimo 1. Digite k novamente: ");
             scanf("%d", &k);
         }
     }
 
-    tempN = n;
-
-    if (n >= k) {
-        //Calculo Numerador (n)
-        while (n >= 1) {
-            numerador *= n;
-            n--;
-        }
-
-        denominador = (tempN - k);
-        while (denominador >= 1) {
-            multermoDeno *= denominador;
-            denominador--;
-        }
+    // Calcula n!
+    for (int i = 1; i <= n; i++) {
+        numerador *= i;
     }
-    printf("\nNumerador:%d", numerador);
-    printf("\nDenominador:%d", multermoDeno);
-    printf("\nArranjo:%d", numerador / multermoDeno);
-    printf("\n\n");
+
+    // Calcula (n - k)!
+    for (int i = 1; i <= (n - k); i++) {
+        fatorialDenominador *= i;
+    }
+
+    printf("\nArranjo A(%d,%d): %d\n\n", n, k, numerador / fatorialDenominador);
 }
 
 void Combinacao() {
@@ -111,9 +103,7 @@ void Combinacao() {
             denominador--;
         }
     }
-    printf("\nNumerador:%d", numerador);
-    printf("\nDenominador:%d", multermoDeno);
-    printf("\nCombinacao:%d", numerador / (multermoDeno * multermoK));
+    printf("\nC(%d,%d)=%d",tempN,k,numerador / (multermoDeno * multermoK));
     printf("\n\n");
 }
 
@@ -140,9 +130,9 @@ int main(void) {
 
     printf("Bem vindo a calculadora de analise combinatoria!\n");
     printf("Menu Principal");
-    printf("\n1. Sem Repeticao");
-    printf("\n2. Com Repeticao");
-    printf(" \n3. Sair do Programa");
+    printf("\n1. Analise Combinatoria Sem Repeticao");
+    printf("\n2. Analise Combinatoria Com Repeticao");
+    printf(" \n3. SAIR DO PROGRAMA");
     printf(" \nQual a opcao desejada?:");
 
     scanf("%d", &escolha);
@@ -171,6 +161,9 @@ int main(void) {
                     break;
                 case 4:
                     main();
+                default:
+                  printf("Escolha uma opcao válida!!\n ");
+                  main();
             }
 
         case 2:
@@ -179,6 +172,10 @@ int main(void) {
             printf("   2. ARn,k");
             printf("   3. CRn,k");
             printf("   4. Voltar ao Menu Principal");
+
+    case 3:
+      printf("OBRIGADO. VOLTE QUANDO PRECISAR DE MINHA AJUDA");
+      return 0;
     }
     return 0;
 }
