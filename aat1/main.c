@@ -255,9 +255,11 @@ int main(void)
         {
         case 1:
           PermutacaoComRepeticao();
+          main();
           break;
         case 2:
             ArranjoComRepeticao();
+            main();
             break;
 
 
