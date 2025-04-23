@@ -163,7 +163,7 @@ void PermutacaoComRepeticao() {
         int valor = elementos[x];
         int fat = 1;
 
-        for (int j = 2; j <= valor; j++) {
+        for (int j = 1; j <= valor; j++) {
             fat *= j; // calcula o fatorial de 'valor'
         }
 
