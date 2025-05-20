@@ -2,62 +2,47 @@
 #include <math.h>
 
 void Permutacao() {
-    int numero = 0, numeroExibir = 0;
-    int multermos = 1;
+    int numero, resultado = 1;
 
-    printf("Digite um numero inteiro >= 0 para executar o fatorial: ");
-    scanf("%d", &numero);
+    do {
+        printf("Digite um numero inteiro >= 0 para executar o fatorial: ");
+        scanf("%d", &numero);
 
-    numeroExibir = numero;
+        if (numero < 0) {
+            printf("Numero invalido.Digite um valor maior ou igual a 0.\n");
+        } else if (numero >= 17) {
+            printf("A maquina apenas executa com exatidao numeros abaixo de 17. Tente novamente.\n");
+            numero = -1; // força repetição
+        }
 
-    if (numero < 0) {
-        printf("Numero invalido! Digite um valor maior ou igual a 0.\n");
-        return;
-    }
+    } while (numero < 0);
 
-    if (numero >= 17) {
-        printf("A maquina apenas executa com exatidao numeros abaixo de 17. Tente novamente.\n");
-        return;
-    }
-
-    // Calcular o fatorial
     for (int i = 1; i <= numero; i++) {
-        multermos *= i;
+        resultado *= i;
     }
 
-    printf("Fatorial de %d: %d\n\n", numeroExibir, multermos);
+    printf("F(%d):%d\n\n", numero, resultado);
 }
 
 void Arranjo() {
-    int n, k, numerador = 1, fatorialDenominador = 1;
+    int n, k;
+    int numerador = 1, denominador = 1;
 
-    printf("Digite o numero de elementos (n): ");
-    scanf("%d", &n);
-    printf("Digite o numero de posicoes (k) n>=k: ");
-    scanf("%d", &k);
+    do {
+        printf("Digite o numero de elementos (n): ");
+        scanf("%d", &n);
+        printf("Digite o numero de posicoes (k), com n >= k e k > 0: ");
+        scanf("%d", &k);
 
-    while (n < k || k == 0) {
-        if (n < k) {
-            printf("n deve ser maior ou igual a k. Digite n novamente: ");
-            scanf("%d", &n);
+        if (n < k || k <= 0) {
+            printf("Valores invalidos Certifique de que n >= k e k > 0.\n\n");
         }
-        if (k == 0) {
-            printf("k deve ser no mínimo 1. Digite k novamente: ");
-            scanf("%d", &k);
-        }
-    }
+    } while (n < k || k <= 0);
 
-    // Calcula n!
-    for (int i = 1; i <= n; i++) {
-        numerador *= i;
-    }
+    for (int i = 1; i <= n; i++) numerador *= i;
+    for (int i = 1; i <= (n - k); i++) denominador *= i;
 
-    // Calcula (n - k)!
-    for (int i = 1; i <= (n - k); i++) {
-        fatorialDenominador *= i;
-    }
-
-    printf("\nArranjo A(%d,%d): %d\n\n", n, k, numerador / fatorialDenominador);
+    printf("\nA(%d,%d): %d\n\n", n, k, numerador / denominador);
 }
 
 void Combinacao() {
@@ -111,98 +96,122 @@ void Combinacao() {
 void ArranjoComRepeticao() {
     int n, k;
 
-    printf("Digite o numero de elementos(n):");
-    scanf("%d", &n);
-    printf("Digite o numero de posicoes (k) k>0:");
-    scanf("%d", &k);
+    do {
+        printf("Digite o numero de elementos (n > 0): ");
+        scanf("%d", &n);
+    } while (n <= 0);
 
-    while (k == 0) {
-        if (k == 0) {
-            printf("Digite um valor valido para k (min. 1): ");
-            scanf("%d", &k);
-        }
-    }
+    do {
+        printf("Digite o numero de posicoes (k > 0): ");
+        scanf("%d", &k);
+    } while (k <= 0);
+
     int resultado = (int) pow(n, k);
-    printf("Arranjo COM repeticao:%d", resultado);
+    printf("Arranjo COM repeticao: %d\n", resultado);
 }
 
 void PermutacaoComRepeticao() {
     int quantLetras = 0, quantRep = 0, inserirArray = 0;
     int elementos[50] = {0};
 
-    printf("Digite a quantidade total de letras:");
-    scanf("%d", &quantLetras);
+    // Validar quantidade total de letras
+    do {
+        printf("Digite a quantidade total de letras (>= 1): ");
+        scanf("%d", &quantLetras);
+        if (quantLetras < 1)
+            printf("Valor invalido. Digite um número maior ou igual a 1.\n");
+    } while (quantLetras < 1);
 
-    printf("Informe quantas letras se repetem \n(Ex: 'ARARA'- 2 letras se repetem(A e R):");
-    scanf("%d", &quantRep);
+    // Validar número de letras que se repetem
+    do {
+        printf("Informe quantas letras se repetem (>= 1 e <= %d): ", quantLetras);
+        scanf("%d", &quantRep);
+        if (quantRep < 1 || quantRep > quantLetras)
+            printf("Valor invalido. Deve estar entre 1 e %d.\n", quantLetras);
+    } while (quantRep < 1 || quantRep > quantLetras);
 
-    for (int i = 0; i <= quantRep - 1; i++) {
-        //quantRep-1 pois o i começa em 0 e usarei ele para povoar o array
-        printf("Quantas vezes a letra %d se repete:", i);
-        scanf("%d", &inserirArray);
+    int somaRepeticoes = 0;
+
+    // Validar cada repetição
+    for (int i = 0; i < quantRep; i++) {
+        do {
+            printf("Quantas vezes a letra %d se repete (>= 2): ", i + 1);
+            scanf("%d", &inserirArray);
+            if (inserirArray < 2 || (somaRepeticoes + inserirArray) > quantLetras)
+                printf("Valor invalido. A repetição deve ser >= 2 e soma total não pode passar de %d.\n", quantLetras);
+        } while (inserirArray < 2 || (somaRepeticoes + inserirArray) > quantLetras);
+
         elementos[i] = inserirArray;
+        somaRepeticoes += inserirArray;
     }
 
-    //Calculando o numerador (fatorial de quantLetras):
+    // Calcular numerador
     int numerador = 1;
-
     for (int n = 1; n <= quantLetras; n++) {
         numerador *= n;
     }
 
-    printf("\nRepeticoes informadas: ");
-    for (int i = 0; i < quantRep; i++) {
-        printf("%d ", elementos[i]);
-    }
-
-    // Calculando o denominador (fatorial de cada indice do Vetor):
-
+    // Calcular denominador
     int denominador = 1;
-
     for (int x = 0; x < quantRep; x++) {
         int valor = elementos[x];
         int fat = 1;
 
         for (int j = 1; j <= valor; j++) {
-            fat *= j; // calcula o fatorial de 'valor'
+            fat *= j;
         }
 
         printf("\nFatorial de %d = %d", valor, fat);
-        denominador *= fat; // multiplica no acumulador
+        denominador *= fat;
     }
-    printf("\nNumerador: %d\n", numerador);
-    printf("Denominador final (produto dos fatoriais): %d\n", denominador);
-    printf("\nPossibildiades COM repeticao: %d", (numerador / denominador));
+
+    printf("\nNumerador: %d", numerador);
+    printf("\nDenominador final (produto dos fatoriais): %d", denominador);
+    printf("\nPossibilidades COM repeticao: %d\n\n", numerador / denominador);
 }
 
 void combinacaoComRepeticao() {
     int n = 0, k = 0;
-    int numerador = 1, denominador = 1;;
+    int numerador = 1, denominadorParte1 = 1, denominadorParte2 = 1;
 
-    printf("Digite o numero de elementos(n):");
-    scanf("%d", &n);
-    printf("Digite o numero de posicoes (k):");
-    scanf("%d", &k);
+    // Validar entrada de n e k
+    do {
+        printf("Digite o número de elementos (n >= 1): ");
+        scanf("%d", &n);
+        if (n < 1) printf("Valor inválido. Tente novamente.\n");
+    } while (n < 1);
 
-    //Calculo de numerador
-    for (int i = 1; i <= (n + k - 1); i++) {
+    do {
+        printf("Digite o numero de posicoes (k >= 1): ");
+        scanf("%d", &k);
+        if (k < 1) printf("Valor invalido. Tente novamente.\n");
+    } while (k < 1);
+
+    int total = n + k - 1;
+
+    // Calcular fatorial do numerador: (n + k - 1)!
+    for (int i = 1; i <= total; i++) {
         numerador *= i;
     }
 
-    //Calculo de denominador
-    for (int x=1;x<=(n-1);x++) {
-        denominador *= x;
-
-            if (x==(n-1)) {
-                for (int j=1;j<=k;j++) {
-                    denominador *= j;
-                }
-            }
+    // Calcular fatorial de (n - 1)
+    for (int i = 1; i <= (n - 1); i++) {
+        denominadorParte1 *= i;
     }
-    printf("%d\n", numerador);
-    printf("%d\n", denominador);
-    printf("C(%d,%d)=%d", n, k, numerador / denominador);
+
+    // Calcular fatorial de k
+    for (int i = 1; i <= k; i++) {
+        denominadorParte2 *= i;
+    }
+
+    int denominador = denominadorParte1 * denominadorParte2;
+
+
+    printf("\nNumerador: %d\n",numerador);
+    printf("Denominador:%d\n",denominadorParte2);
+    printf("CR(%d,%d) = %d\n\n",n,k, numerador / denominador);
 }
+
 
 int main(void) {
     int escolha, escolhaCase1, escolhaCase2;
