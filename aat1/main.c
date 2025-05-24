@@ -1,3 +1,5 @@
+//Luis Gustavo Barbosa Oliveira
+//Otavio Thomazelli Marques
 #include <stdio.h>
 #include <math.h>
 
